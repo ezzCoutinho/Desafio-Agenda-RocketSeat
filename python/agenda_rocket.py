@@ -36,11 +36,13 @@ def visualizar_contatos(contatos):
 def editar_contatos(contatos, indice_contato, nome, telefone, email):
   indice_ajustado = indice_contato -1
   if indice_ajustado >= 0 and indice_ajustado <= len(contatos):
-    contatos[indice_ajustado]["nome"] = nome
-    contatos[indice_ajustado]["telefone"] = telefone
-    contatos[indice_ajustado]["email"] = email 
-    print(f"\nContato {indice_contato} foi atualizado para: \nNome: {nome}. \nTelefone: {telefone}. \nE-mail: {email}.")
-    return
+    if not valida_contato(nome, telefone, email):
+      print("\nCONTATO NÃO EDITADO.") 
+    else: 
+      contatos[indice_ajustado]["nome"] = nome
+      contatos[indice_ajustado]["telefone"] = telefone
+      contatos[indice_ajustado]["email"] = email 
+      print(f"\nContato {indice_contato} foi atualizado para: \nNome: {nome}. \nTelefone: {telefone}. \nE-mail: {email}.")
   else:
     print("\n Índice inválido.")
 
@@ -48,7 +50,35 @@ def deletar_contatos(contatos, indice_contato):
   indice_ajustado = indice_contato -1 
   if indice_ajustado >= 0 and indice_ajustado <= len(contatos):
     del contatos[indice_ajustado]
-  print("\nContato foi apagado!")
+    print("\nContato foi apagado!")
+  else:
+    print("\n Contato não existente.") 
+
+def marcar_favorito(contatos, indice_contato):
+  indice_ajustado = indice_contato -1
+  contatos[indice_ajustado]["favorito"] = True
+  print(f"\nContato {indice_contato} foi favoritado!")
+  return
+
+def desmarcar_favorito(contatos, indice_contato):
+  indice_ajustado = indice_contato -1
+  if contatos[indice_ajustado]["favorito"]:
+    contatos[indice_ajustado]["favorito"] = False
+    print(f"\n Contato {indice_contato} foi desmarcado como favorito")
+  elif not contatos[indice_ajustado]["favorito"]:
+    print(f"\n Este contato não é favorito.")
+  else:
+    print(f"\n Este contato não existe.")
+
+def contatos_favoritos(contatos):
+  for indice, contato in enumerate(contatos):
+    favorito = "★"
+    valor_nome = contato["nome"]
+    valor_telefone = contato["telefone"]
+    valor_email = contato["email"]
+    if contatos[indice]["favorito"]:
+      indice += 1
+      print(f"\n {indice}. [{favorito}] Nome: {valor_nome}. Telefone: {valor_telefone}. E-mail: {valor_email}.")
   return
 
 contatos = []
@@ -59,10 +89,9 @@ while True:
   print("2. Ver contatos.")
   print("3. Editar contatos.")
   print("4. Marcar/desmarcar um contato como favorito.")
-  print("5. Desmarcar contatos como favoritos.")
-  print("6. Ver contatos favoritos.")
-  print("7. Apagar contatos.")
-  print("8. Sair")
+  print("5. Ver contatos favoritos.")
+  print("6. Apagar contatos.")
+  print("7. Sair")
 
   escolha = str(input("Escolha uma opção da lista de Contatos: "))
 
@@ -83,13 +112,25 @@ while True:
     email_a_editar = str(input("\nEmail a editar: "))
     editar_contatos(contatos, indice_a_editar, nome_a_editar, telefone_a_editar, email_a_editar)
   elif escolha == "4":
-    visualizar_contatos(contatos)
-    indice_a_favoritar = int(input("\nMarcar/desmarcar um contato como favorito: "))
-  elif escolha == "7":
+    escolha_md = input("\n Para marcar um contato como favorito: 1. \n Para desmarcar um contato como favorito: 2. \n Selecione 1 ou 2: ")
+    if escolha_md == "1":
+      visualizar_contatos(contatos)
+      indice_a_favoritar = int(input("\nMarcar um contato como favorito: "))
+      marcar_favorito(contatos, indice_a_favoritar)
+    elif escolha_md == "2":
+      visualizar_contatos(contatos)
+      indice_a_desfavorecer = int(input("\nDesmarcar um contato como favorito: "))
+      desmarcar_favorito(contatos, indice_a_desfavorecer)
+    else:
+      print("\n Esta opção não existe!")
+  elif escolha == "5":
+    print("\nContatos favoritos: ")
+    contatos_favoritos(contatos)
+  elif escolha == "6":
     visualizar_contatos(contatos)
     indice_a_apagar = int(input("\nEscolha o contato que deseja apagar: "))
     deletar_contatos(contatos, indice_a_apagar)
-  elif escolha == "8":
+  elif escolha == "7":
     print("\n Saindo da lista de contatos...")
     break
   else: 
