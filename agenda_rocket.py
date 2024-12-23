@@ -16,7 +16,7 @@ def adicionar_contatos(contatos, nome, telefone, email):
   if not valida_contato(nome, telefone, email):
     print("\nCONTATO NÃO SALVO.")
     return 
-  else: 
+  else:
     contato = {"nome": nome, "telefone": telefone, "email": email, "favorito": False}
     contatos.append(contato)
     print(f"\nContato adicionado: {nome}")
@@ -31,7 +31,7 @@ def visualizar_contatos(contatos):
     valor_telefone = contato["telefone"]
     valor_email = contato["email"]
     print(f"\n {indice}. [{favorito}] Nome: {valor_nome}. Telefone: {valor_telefone}. E-mail: {valor_email}.")
-    return
+  return
 
 def editar_contatos(contatos, indice_contato, nome, telefone, email):
   indice_ajustado = indice_contato -1
@@ -44,16 +44,23 @@ def editar_contatos(contatos, indice_contato, nome, telefone, email):
   else:
     print("\n Índice inválido.")
 
+def deletar_contatos(contatos, indice_contato):
+  indice_ajustado = indice_contato -1 
+  if indice_ajustado >= 0 and indice_ajustado <= len(contatos):
+    contatos.remove(indice_ajustado) ## ajustar aqui Matheus 
+  print("\nContato foi apagado!")
+  return
+
 contatos = []
 
 while True:
   print("\n Menu da lista de contatos.")
-  print("1. Adicionar contato.")
-  print("2. Ver contato.")
-  print("3. Editar contato.")
+  print("1. Adicionar contatos.")
+  print("2. Ver contatos.")
+  print("3. Editar contatos.")
   print("4. Marcar/desmarcar um contato como favorito.")
-  print("5. Ver contato favoritos.")
-  print("6. Apagar contato.")
+  print("5. Ver contatos favoritos.")
+  print("6. Apagar contatos.")
   print("7. Sair")
 
   escolha = str(input("Escolha uma opção da lista de Contatos: "))
@@ -74,6 +81,10 @@ while True:
     telefone_a_editar = str(input("\nEdite o telefone: "))
     email_a_editar = str(input("\nEmail a editar: "))
     editar_contatos(contatos, indice_a_editar, nome_a_editar, telefone_a_editar, email_a_editar)
+  elif escolha == "6":
+    visualizar_contatos
+    indice_a_apagar = int(input("Escolha o contato que deseja apagar: "))
+    deletar_contatos(contatos, indice_a_apagar)
   elif escolha == "7":
     print("\n Saindo da lista de contatos...")
     break
