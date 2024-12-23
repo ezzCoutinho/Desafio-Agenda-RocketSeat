@@ -1,14 +1,21 @@
 from validate_email import validate_email
-def adicionar_contatos(contatos, nome, telefone, email):
+
+def valida_contato(nome, telefone, email):
   if len(nome) < 4:
-    print("\nO nome tem que conter ao menos 4 dígitos. Contato não foi salvo.")
-    return
+    print("\nO nome tem que conter ao menos 4 dígitos.")
+    return False
   elif len(telefone) < 8:
-    print("\nTelefone tem que conter ao menos 8 dígitos. Contato não foi salvo.")
-    return
+    print("\nTelefone tem que conter ao menos 8 dígitos.")
+    return False
   elif not validate_email(email):
-    print("\nEste e-mail é inválido. Contato não sera salvo.")
-    return
+    print("\nEste e-mail é inválido.")
+    return False
+  return True
+
+def adicionar_contatos(contatos, nome, telefone, email):
+  if not valida_contato(nome, telefone, email):
+    print("\nCONTATO NÃO SALVO.")
+    return 
   else: 
     contato = {"nome": nome, "telefone": telefone, "email": email, "favorito": False}
     contatos.append(contato)
@@ -16,7 +23,6 @@ def adicionar_contatos(contatos, nome, telefone, email):
     return
 
 def visualizar_contatos(contatos):
-  print("Contatos: ")
   for indice, contato in enumerate(contatos):
     favorito_done = contato["favorito"]
     indice += 1
@@ -24,8 +30,19 @@ def visualizar_contatos(contatos):
     valor_nome = contato["nome"]
     valor_telefone = contato["telefone"]
     valor_email = contato["email"]
-    print(f"\n {indice}. [{favorito}] Nome: {valor_nome}. Telefone:  {valor_telefone}. E-mail: {valor_email} ")
+    print(f"\n {indice}. [{favorito}] Nome: {valor_nome}. Telefone: {valor_telefone}. E-mail: {valor_email}.")
     return
+
+def editar_contatos(contatos, indice_contato, nome, telefone, email):
+  indice_ajustado = indice_contato -1
+  if indice_ajustado >= 0 and indice_ajustado <= len(contatos):
+    contatos[indice_ajustado]["nome"] = nome
+    contatos[indice_ajustado]["telefone"] = telefone
+    contatos[indice_ajustado]["email"] = email 
+    print(f"\nContato {indice_contato} foi atualizado para: \nNome: {nome}. \nTelefone: {telefone}. \nE-mail: {email}.")
+    return
+  else:
+    print("\n Índice inválido.")
 
 contatos = []
 
@@ -48,8 +65,15 @@ while True:
     email_contato = str(input("\n*OBRIGATÓRIO* Adicione o email do contato: "))
     adicionar_contatos(contatos, nome_contato, telefone_contato, email_contato)
   elif escolha == "2":
-    print("\n Lista de contatos.")
+    print("\n Lista de contatos: ")
     visualizar_contatos(contatos)
+  elif escolha == "3":
+    visualizar_contatos(contatos)
+    indice_a_editar = int(input("\nEscolha o contato a ser editado: "))
+    nome_a_editar = str(input("\nEdite o nome: "))
+    telefone_a_editar = str(input("\nEdite o telefone: "))
+    email_a_editar = str(input("\nEmail a editar: "))
+    editar_contatos(contatos, indice_a_editar, nome_a_editar, telefone_a_editar, email_a_editar)
   elif escolha == "7":
     print("\n Saindo da lista de contatos...")
     break
