@@ -14,8 +14,7 @@ def valida_contato(nome, telefone, email):
 
 def adicionar_contatos(contatos, nome, telefone, email):
   if not valida_contato(nome, telefone, email):
-    print("\nCONTATO NÃO SALVO.")
-    return 
+    print("\nCONTATO NÃO SALVO.") 
   else:
     contato = {"nome": nome, "telefone": telefone, "email": email, "favorito": False}
     contatos.append(contato)
@@ -36,13 +35,11 @@ def visualizar_contatos(contatos):
 def editar_contatos(contatos, indice_contato, nome, telefone, email):
   indice_ajustado = indice_contato -1
   if indice_ajustado >= 0 and indice_ajustado <= len(contatos):
-    if not valida_contato(nome, telefone, email):
-      print("\nCONTATO NÃO EDITADO.") 
-    else: 
-      contatos[indice_ajustado]["nome"] = nome
-      contatos[indice_ajustado]["telefone"] = telefone
-      contatos[indice_ajustado]["email"] = email 
-      print(f"\nContato {indice_contato} foi atualizado para: \nNome: {nome}. \nTelefone: {telefone}. \nE-mail: {email}.")
+    contatos[indice_ajustado]["nome"] = nome
+    contatos[indice_ajustado]["telefone"] = telefone
+    contatos[indice_ajustado]["email"] = email 
+    print(f"\nContato {indice_contato} foi atualizado para: \nNome: {nome}. \nTelefone: {telefone}. \nE-mail: {email}.")
+    return
   else:
     print("\n Índice inválido.")
 
