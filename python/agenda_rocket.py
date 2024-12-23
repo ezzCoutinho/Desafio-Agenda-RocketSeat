@@ -2,10 +2,10 @@ from validate_email import validate_email
 
 def valida_contato(nome, telefone, email):
   if len(nome) < 4:
-    print("\nO nome tem que conter ao menos 4 dígitos.")
+    print("\n O nome tem que conter ao menos 4 dígitos.")
     return False
   elif len(telefone) < 8:
-    print("\nTelefone tem que conter ao menos 8 dígitos.")
+    print("\n Telefone tem que conter ao menos 8 dígitos.")
     return False
   elif not validate_email(email):
     print("\nEste e-mail é inválido.")
@@ -14,13 +14,12 @@ def valida_contato(nome, telefone, email):
 
 def adicionar_contatos(contatos, nome, telefone, email):
   if not valida_contato(nome, telefone, email):
-    print("\nCONTATO NÃO SALVO.")
-    return 
+    print("\n CONTATO NÃO SALVO.")
   else:
     contato = {"nome": nome, "telefone": telefone, "email": email, "favorito": False}
     contatos.append(contato)
-    print(f"\nContato adicionado: {nome}")
-    return
+    print(f"\n Contato adicionado: {nome}")
+  return
 
 def visualizar_contatos(contatos):
   for indice, contato in enumerate(contatos):
@@ -30,34 +29,37 @@ def visualizar_contatos(contatos):
     valor_nome = contato["nome"]
     valor_telefone = contato["telefone"]
     valor_email = contato["email"]
-    print(f"\n {indice}. [{favorito}] Nome: {valor_nome}. Telefone: {valor_telefone}. E-mail: {valor_email}.")
+    print(f"\n {indice}. [{favorito}] Nome: {valor_nome} Telefone: {valor_telefone} E-mail: {valor_email}")
   return
 
 def editar_contatos(contatos, indice_contato, nome, telefone, email):
   indice_ajustado = indice_contato -1
   if indice_ajustado >= 0 and indice_ajustado <= len(contatos):
     if not valida_contato(nome, telefone, email):
-      print("\nCONTATO NÃO EDITADO.") 
+      print("\n CONTATO NÃO EDITADO.") 
     else: 
       contatos[indice_ajustado]["nome"] = nome
       contatos[indice_ajustado]["telefone"] = telefone
       contatos[indice_ajustado]["email"] = email 
-      print(f"\nContato {indice_contato} foi atualizado para: \nNome: {nome}. \nTelefone: {telefone}. \nE-mail: {email}.")
+      print(f"\nContato {indice_contato} foi atualizado para: \nNome: {nome} \nTelefone: {telefone} \nE-mail: {email}")
   else:
     print("\n Índice inválido.")
+  return
 
 def deletar_contatos(contatos, indice_contato):
   indice_ajustado = indice_contato -1 
-  if indice_ajustado >= 0 and indice_ajustado <= len(contatos):
+  if 0 <= indice_ajustado < len(contatos):
     del contatos[indice_ajustado]
-    print("\nContato foi apagado!")
-  else:
-    print("\n Contato não existente.") 
+    print("\n Contato foi apagado!")
+  else: 
+    print("\n Contato não existe.")
+  return
+  
 
 def marcar_favorito(contatos, indice_contato):
   indice_ajustado = indice_contato -1
   contatos[indice_ajustado]["favorito"] = True
-  print(f"\nContato {indice_contato} foi favoritado!")
+  print(f"\n Contato {indice_contato} foi favoritado!")
   return
 
 def desmarcar_favorito(contatos, indice_contato):
@@ -69,6 +71,7 @@ def desmarcar_favorito(contatos, indice_contato):
     print(f"\n Este contato não é favorito.")
   else:
     print(f"\n Este contato não existe.")
+  return
 
 def contatos_favoritos(contatos):
   for indice, contato in enumerate(contatos):
